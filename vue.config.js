@@ -9,8 +9,5 @@ module.exports = {
         { "src":"./img/icons/android-chrome-maskable-192x192.png","sizes":"192x192","type":"image/png","purpose":"maskable" }
       ]
     }
-  },
-  publicPath: process.env.NODE_ENV === 'production'
-  ? '/words/'
-  : '/'
+  }
 }
