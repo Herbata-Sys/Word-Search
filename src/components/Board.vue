@@ -5,7 +5,7 @@
         <Menu
           :words="boardWords"
           :crossedWords="crossedWords"
-          @clicked="crossWord"
+          @hint-clicked="crossWord"
           @show-settings="openSettings"
         />
         <div class="board__letters" v-show="loaded">
