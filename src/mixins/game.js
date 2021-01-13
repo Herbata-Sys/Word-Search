@@ -124,7 +124,13 @@ export default {
 
       // place on best overlap position
       this.boardWords.push(word)
-      const location = locations.reduce((p, c) => (p.overlap > c.overlap) ? p : c)
+
+      let location = locations.reduce((p, c) => (p.overlap > c.overlap) ? p : c)
+      // if max overlap location overlap is 0 then get random location
+      // to prevent taking last location every time
+      if (location.overlap === 0) {
+        location = locations[Math.floor(Math.random() * locations.length)]
+      }
 
       for (let i = 0, len = word.length; i < len; i++) {
         const nextWordPos = location.direction.nextLetterPos(location.x, location.y, i)
