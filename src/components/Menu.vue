@@ -1,7 +1,12 @@
 <template>
   <div class="menu">
     <div class="menu__words">
-      <ChevronLeftIcon :color="!wordIndex ? '#bebebe' : 'black'" class="menu__icon" @click="prevWord" />
+      <div class="menu__arrow" @click="prevWord">
+        <ChevronLeftIcon size="18" :color="!wordIndex ? '#bebebe' : 'black'" class="menu__icon" />
+        <div class="menu__count" v-if="availableWords.length">
+          {{ wordIndex + 1 }}
+        </div>
+      </div>
       <div
         class="menu__word"
         :class="{ menu__win: !availableWords.length }"
@@ -9,7 +14,12 @@
       >
         {{ availableWords.length ? availableWords[wordIndex] : 'Wygrałeś!' }}
       </div>
-      <ChevronRightIcon :color="reachedEnd ? '#bebebe' : 'black'" class="menu__icon" @click="nextWord" />
+      <div class="menu__arrow" @click="nextWord">
+        <ChevronRightIcon size="18" :color="reachedEnd ? '#bebebe' : 'black'" class="menu__icon" />
+        <div class="menu__count" v-if="availableWords.length">
+          {{ availableWords.length }}
+        </div>
+      </div>
     </div>
     <div class="menu__wrapper">
       <Maximize2Icon size="20" color="#0043ff" class="menu__icon" v-if="!fullscreen" @click="toggleFullscreen" />
@@ -135,8 +145,16 @@ export default {
   border-left: none;
   border-right: none;
 
-  &__icon {
+  &__arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
+  }
+
+  &__count {
+    font-size: 0.6rem;
+    color: rgb(100, 100, 100);
   }
 
   &__wrapper {
