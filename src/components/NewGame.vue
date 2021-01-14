@@ -39,10 +39,10 @@ export default {
 <style scoped lang="scss">
 .newGame {
   position: absolute;
-  top: 46px;
+  top: 43px;
   background: rgba(255, 255, 255, 0.938);
   width: 100%;
-  height: calc(100% - 75px);
+  height: calc(100% - 72px);
   z-index: 1;
   display: flex;
   justify-content: center;
