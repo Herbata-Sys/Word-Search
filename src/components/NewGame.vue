@@ -11,10 +11,12 @@
     <div class="newGame__button" @click="$emit('restart')">
       Nowa gra
     </div>
+    <canvas id="confetti" class="newGame__confetti" />
   </div>
 </template>
 
 <script>
+import ConfettiGenerator from 'confetti-js'
 import { AwardIcon } from 'vue-feather-icons'
 import time from '../mixins/time'
 
@@ -32,6 +34,25 @@ export default {
 
   components: {
     AwardIcon
+  },
+
+  mounted () {
+    const confettiSettings = {
+      target: 'confetti',
+      max: '80',
+      size: '1',
+      animate: true,
+      props: ['square', 'line'],
+      colors: [[165, 104, 246], [230, 61, 135], [0, 199, 228], [253, 214, 126]],
+      clock: '20',
+      rotate: false,
+      width: document.querySelector('#confetti').offsetWidth,
+      height: document.querySelector('#confetti').offsetHeight,
+      start_from_edge: true,
+      respawn: true
+    }
+    const confetti = new ConfettiGenerator(confettiSettings)
+    confetti.render()
   }
 }
 </script>
@@ -55,6 +76,15 @@ export default {
     margin-top: 0;
     margin-bottom: 0;
     padding-bottom: 10px;
+  }
+
+  &__confetti {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   &__button {
