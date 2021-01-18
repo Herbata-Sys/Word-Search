@@ -157,6 +157,10 @@ export default {
     color: rgb(100, 100, 100);
   }
 
+  &__icon {
+    cursor: pointer;
+  }
+
   &__wrapper {
     display: flex;
     align-items: center;

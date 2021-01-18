@@ -438,7 +438,7 @@ export default {
       const h = Math.floor(Math.random() * (360 + 1))
       const s = 90
       const l = Math.floor(Math.random() * (55 - 40)) + 40
-      return `hsl(${h}, ${s}%, ${l}%)`
+      return `hsla(${h}, ${s}%, ${l}%, .45)`
     },
 
     reverseString (s) {
@@ -519,10 +519,10 @@ export default {
   }
 
   &__highlight {
-    opacity: 0.45;
     border-radius: 10px;
     position: absolute;
     pointer-events: none;
+    border: 2px solid rgba(0, 0, 0, 0.09);
   }
 
   &__letters {

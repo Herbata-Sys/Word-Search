@@ -82,7 +82,6 @@ export default {
         return
       }
       this.locked = false
-      this.time++
       clearInterval(this.timeInterval)
       this.timeInterval = setInterval(() => this.time++, 1000)
     },
