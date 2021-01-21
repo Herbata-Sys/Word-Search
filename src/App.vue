@@ -17,8 +17,12 @@ export default {
 </script>
 
 <style lang="scss">
-* {
+body * {
   box-sizing: border-box;
+  font-family: monospace;
+}
+
+body.fontLoaded * {
   font-family: 'Roboto Mono', monospace;
 }
 </style>

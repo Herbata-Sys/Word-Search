@@ -218,7 +218,8 @@ export default {
         width: this.letterSize + 'px',
         height: this.letterSize + 'px',
         fontSize: this.letterSize * 0.044 + 'rem',
-        fontWeight: this.letterSize > 40 ? 500 : 500
+        fontWeight: 600
+        // fontWeight: this.letterSize > 40 ? 600 : 500
       }
     },
 
@@ -306,7 +307,7 @@ export default {
 
     addEvents () {
       document.addEventListener('mousemove', this.boardMouseMove)
-      document.querySelector('.board__letters').addEventListener('touchmove', e => e.preventDefault())
+      document.querySelector('.board__letters').addEventListener('touchmove', (e) => e.preventDefault(), { passive: true })
       document.addEventListener('touchmove', this.boardMouseMove, { passive: true })
       document.querySelector('.board').addEventListener('pointerdown', this.boardClick)
       document.addEventListener('mouseup', this.boardClickRelease)
@@ -545,8 +546,8 @@ export default {
       pointer-events: none;
       z-index: -1;
       background: var(--background);
-      filter: blur(1px);
-      opacity: 0.4;
+      filter: blur(0.6px) saturate(440%);
+      opacity: 0.35;
     }
 
     &:before {
@@ -564,7 +565,6 @@ export default {
 
   &__letter {
     font-family: monospace;
-    font-weight: 500;
     font-size: 1.25rem;
     display: flex;
     justify-content: center;
