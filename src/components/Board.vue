@@ -307,13 +307,17 @@ export default {
 
     addEvents () {
       document.addEventListener('mousemove', this.boardMouseMove)
-      document.querySelector('.board__letters').addEventListener('touchmove', (e) => e.preventDefault(), { passive: true })
+      document.querySelector('.board__letters').addEventListener('touchmove', this.preventRefresh, { passive: false })
       document.addEventListener('touchmove', this.boardMouseMove, { passive: true })
       document.querySelector('.board').addEventListener('pointerdown', this.boardClick)
       document.addEventListener('mouseup', this.boardClickRelease)
       document.addEventListener('touchend', this.boardClickRelease, { passive: true })
       document.addEventListener('touchcancel', this.boardClickRelease, { passive: true })
       window.addEventListener('resize', () => this.setLetterSize(this.difficultyLevels, this.settings.difficulty))
+    },
+
+    preventRefresh (e) {
+      e.preventDefault()
     },
 
     boardMouseMove (e) {
