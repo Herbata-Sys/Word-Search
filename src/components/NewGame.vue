@@ -71,7 +71,7 @@ export default {
   top: 43px;
   background: rgba(255, 255, 255, 0.938);
   width: 100%;
-  height: calc(100% - 72px);
+  height: calc(100% - 71px);
   z-index: 1;
   display: flex;
   justify-content: center;
