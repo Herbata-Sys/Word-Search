@@ -3,13 +3,15 @@ export default {
   methods: {
     fillBoard (empty) {
       this.board = []
+      const boardPlaceholder = []
       const board = this.boardWithLetters
       this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
       this.h = this.difficultyLevels[this.settings.difficulty - 1].size
       this.w = this.difficultyLevels[this.settings.difficulty - 1].size
       const w = this.w
       const h = this.h
-      this.createEmptyBoard(this.board, w, h, true)
+      this.createEmptyBoard(boardPlaceholder, w, h, true)
+      this.board = boardPlaceholder
       this.loaded = true
       if (!empty) {
         this.initiateWords(this.settings)
