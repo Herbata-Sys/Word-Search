@@ -3,6 +3,7 @@
     <div class="board__container">
       <div class="board__wrapper">
         <Menu
+          :win="win"
           :words="boardWords"
           :crossedWords="crossedWords"
           @hint-clicked="crossWord"
@@ -37,8 +38,9 @@
         />
 
         <NewGame
-          v-if="win"
-          :time="$refs.bottomMenu.time"
+          v-if="win || firstGame"
+          :win="win"
+          :time="$refs.bottomMenu ? $refs.bottomMenu.time : 0"
           :breakRecord="false"
           @restart="restartGame"
         />
@@ -71,6 +73,7 @@ export default {
 
   data () {
     return {
+      firstGame: true,
       started: false,
       win: false,
       showSettings: false,
@@ -200,8 +203,7 @@ export default {
   },
 
   mounted () {
-    this.$refs.bottomMenu.initiateTimer()
-    this.fillBoard()
+    this.fillBoard(true)
     this.addEvents()
     this.started = true
   },
@@ -241,6 +243,7 @@ export default {
       this.loaded = false
       this.fillBoard()
       this.started = true
+      this.firstGame = false
     },
 
     checkWin () {

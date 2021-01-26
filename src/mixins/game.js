@@ -1,7 +1,7 @@
 import Vue from 'vue'
 export default {
   methods: {
-    fillBoard () {
+    fillBoard (empty) {
       this.board = []
       const board = this.boardWithLetters
       this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
@@ -11,12 +11,14 @@ export default {
       const h = this.h
       this.createEmptyBoard(this.board, w, h, true)
       this.loaded = true
-      this.initiateWords(this.settings)
-      const words = this.shuffleArray(this.words)
-      this.createEmptyBoard(board, w, h)
-      this.fillWithWords(board, w, h, words)
-      this.fillEmpty(board, w, h)
-      this.loadBoard(this.board, board, w, h)
+      if (!empty) {
+        this.initiateWords(this.settings)
+        const words = this.shuffleArray(this.words)
+        this.createEmptyBoard(board, w, h)
+        this.fillWithWords(board, w, h, words)
+        this.fillEmpty(board, w, h)
+        this.loadBoard(this.board, board, w, h)
+      }
     },
 
     createEmptyBoard (board, w, h, placeholder) {

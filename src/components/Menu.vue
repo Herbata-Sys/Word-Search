@@ -9,10 +9,10 @@
       </div>
       <div
         class="menu__word"
-        :class="{ menu__win: !availableWords.length }"
+        :class="{ menu__win: !availableWords.length && win }"
         @click="availableWords.length ? crossWord() : ''"
       >
-        {{ availableWords.length ? availableWords[wordIndex] : 'Wygrałeś!' }}
+        {{ availableWords.length ? availableWords[wordIndex] : (win ?'Wygrałeś!' : welcomeText) }}
       </div>
       <div class="menu__arrow" @click="nextWord">
         <ChevronRightIcon size="18" :color="reachedEnd ? '#bebebe' : 'black'" class="menu__icon" />
@@ -44,6 +44,7 @@ export default {
   },
 
   props: {
+    win: Boolean,
     words: Array,
     crossedWords: Array
   },
@@ -85,6 +86,12 @@ export default {
 
     reachedEnd () {
       return this.wordIndex >= (this.availableWords.length - 1)
+    },
+
+    welcomeText () {
+      const dateNow = new Date()
+      const hoursNow = dateNow.getHours()
+      return hoursNow > 5 && hoursNow < 19 ? 'Dzień dobry' : 'Dobry wieczór'
     }
   },
 
