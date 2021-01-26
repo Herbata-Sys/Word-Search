@@ -11,8 +11,8 @@
       </div>
     </div>
     <div class="newGame__button" @click="$emit('restart')">
-      <PlayIcon fill="white" class="newGame__playIcon" size="15" />
       Nowa gra
+      <PlayIcon fill="white" class="newGame__playIcon" size="18" />
     </div>
     <canvas id="confetti" class="newGame__confetti" />
   </div>
@@ -71,7 +71,7 @@ export default {
   top: 43px;
   background: rgba(255, 255, 255, 0.938);
   width: 100%;
-  height: calc(100% - 71px);
+  height: calc(100% - 70px);
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -116,7 +116,7 @@ export default {
   }
 
   &__playIcon {
-    margin-right: 10px;
+    margin-left: 10px;
   }
 
   &__breakRecord {

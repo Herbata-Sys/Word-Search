@@ -47,13 +47,14 @@
     <div>
       <div class="settings__save" @click="$emit('save', settings)">
         Zapisz
+        <SaveIcon class="settings__saveIcon" size="18" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { TriangleIcon, SquareIcon, HexagonIcon, XIcon, ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { TriangleIcon, SquareIcon, HexagonIcon, XIcon, ChevronLeftIcon, ChevronRightIcon, SaveIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Settings',
@@ -64,7 +65,8 @@ export default {
     HexagonIcon,
     XIcon,
     ChevronLeftIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
+    SaveIcon
   },
 
   props: {
@@ -185,7 +187,16 @@ export default {
     background: #076aff;
     color: white;
     min-width: 150px;
+    font-size: 1.2rem;
+    font-weight: 500;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__saveIcon {
+    margin-left: 10px;
   }
 
   &__active {

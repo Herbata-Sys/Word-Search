@@ -91,7 +91,7 @@ export default {
     welcomeText () {
       const dateNow = new Date()
       const hoursNow = dateNow.getHours()
-      return hoursNow > 5 && hoursNow < 19 ? 'Dzień dobry' : 'Dobry wieczór'
+      return hoursNow > 5 && hoursNow < 19 ? 'Dzień dobry 🌞' : 'Dobry wieczór 🌕'
     }
   },
 
