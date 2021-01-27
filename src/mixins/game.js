@@ -6,8 +6,8 @@ export default {
       const boardPlaceholder = []
       const board = this.boardWithLetters
       this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
-      this.h = this.difficultyLevels[this.settings.difficulty - 1].size
-      this.w = this.difficultyLevels[this.settings.difficulty - 1].size
+      this.h = this.difficultyLevels[this.settings.difficulty - 1].height
+      this.w = this.difficultyLevels[this.settings.difficulty - 1].width
       const w = this.w
       const h = this.h
       this.createEmptyBoard(boardPlaceholder, w, h, true)
@@ -57,8 +57,8 @@ export default {
     },
 
     setLetterSize (d, dLvl) {
-      const heightSize = (window.innerHeight - 60) / d[dLvl - 1].size
-      const widthSize = (window.innerWidth - 20) / d[dLvl - 1].size
+      const heightSize = (window.innerHeight - 60) / d[dLvl - 1].height
+      const widthSize = (window.innerWidth - 20) / d[dLvl - 1].width
       const letterSize = heightSize < widthSize ? heightSize : widthSize
       const max = d[dLvl - 1].maxLetterSize
       const min = d[dLvl - 1].minLetterSize
