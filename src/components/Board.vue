@@ -86,9 +86,9 @@ export default {
       crossedWords: [],
       highlights: [],
       settings: {
-        difficulty: 2,
+        difficulty: 1,
         category: 'animals',
-        background: 1
+        background: 3
       },
       difficultyLevels: [
         { iconName: 'TriangleIcon', iconColor: '#00ce06', name: 'Łatwy', height: 8, width: 6, minLetterSize: 48, maxLetterSize: 50 },
@@ -101,10 +101,14 @@ export default {
         { name: 'Jedzenie', value: 'food' }
       ],
       backgrounds: [
-        { name: 'Białe', border: '#228dd954' },
-        { name: 'Liście', border: '#74ae62', url: '/images/leaves.webp' },
-        { name: 'Kwiaty', border: '#8bb299', url: '/images/flowers.webp' },
-        { name: 'Jesień', border: '#e174044a', url: '/images/fall.webp' }
+        { name: 'Brak', color: 'white', border: '#a4a4a47a', board: 'transparent' },
+        { name: 'Fale', border: '#A8E5FF', url: '/images/just-waves.webp', board: '#ffffff29' },
+        { name: 'Liście', border: '#d3e6ab', url: '/images/leaves.webp', board: '#ffffff29' },
+        { name: 'Słońce', border: '#FFD1D1', url: '/images/let-there-be-sun.webp', board: '#ffffff29' },
+        { name: 'Zmarszczki', border: '#dfdfdf', url: '/images/ripples.webp', board: '#ffffff29' },
+        { name: 'Kropki', border: '#FFD1D1', url: '/images/watercolor.webp', board: '#ffffff29' },
+        { name: 'Pszenica', border: '#828282', url: '/images/wheat.webp', board: '#ffffff94' },
+        { name: 'Czarny', color: 'black', border: '#515151', board: '#ffffff63' }
       ],
       h: 10,
       w: 10,
@@ -195,11 +199,12 @@ export default {
     }
   },
 
-  beforeMount () {
+  created () {
     if (localStorage.settings) {
       this.settings = JSON.parse(localStorage.settings)
     }
     this.initiateWords(this.settings)
+    this.loadBackground()
   },
 
   mounted () {
@@ -229,12 +234,19 @@ export default {
       const background = this.backgrounds[this.settings.background]
       return {
         '--background': background.url ? `url("${background.url}")` : 'white',
-        '--borderColor': background.border
+        '--borderColor': background.border,
+        '--boardBackground': background.board
       }
     }
   },
 
   methods: {
+    loadBackground () {
+      const bgSet = this.backgrounds[this.settings.background]
+      const bg = bgSet.color || `url(${bgSet.url})`
+      document.body.style.background = bg
+    },
+
     restartGame () {
       this.highlights = []
       this.boardWords = []
@@ -269,6 +281,7 @@ export default {
     saveSettings (s) {
       this.settings = Object.assign({}, s)
       localStorage.settings = JSON.stringify(this.settings)
+      this.loadBackground()
       this.closeSettings()
       this.restartGame()
     },
@@ -316,7 +329,13 @@ export default {
       document.addEventListener('mouseup', this.boardClickRelease)
       document.addEventListener('touchend', this.boardClickRelease, { passive: true })
       document.addEventListener('touchcancel', this.boardClickRelease, { passive: true })
-      window.addEventListener('resize', () => this.setLetterSize(this.difficultyLevels, this.settings.difficulty))
+      window.addEventListener('resize', this.onResize)
+    },
+
+    onResize () {
+      if (!this.highlights.length) {
+        this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
+      }
     },
 
     preventRefresh (e) {
@@ -395,7 +414,7 @@ export default {
       }
     },
 
-    boardClickRelease (e, cross) {
+    boardClickRelease (e) {
       if (e.target.className === 'board__letter' && this.click && (this.clickDirection + 1)) {
         let word = ''
 
@@ -506,7 +525,7 @@ export default {
       border-bottom: 1px solid var(--borderColor);
     }
 
-    &:nth-last-of-type(1) {
+    &:nth-last-of-type(2) {
 
       .board__letter:after {
         height: 100%;
@@ -543,20 +562,6 @@ export default {
     overflow: hidden;
     margin: auto;
 
-    &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      background: var(--background);
-      filter: blur(0.6px) saturate(440%);
-      opacity: 0.35;
-    }
-
     &:before {
       content: '';
       position: absolute;
@@ -566,7 +571,7 @@ export default {
       height: 100%;
       pointer-events: none;
       z-index: -2;
-      background: white;
+      background: var(--boardBackground);
     }
   }
 
