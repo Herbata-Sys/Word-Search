@@ -256,6 +256,14 @@ export default {
       this.fillBoard()
       this.started = true
       this.firstGame = false
+      this.scrollCenterBoard()
+    },
+
+    scrollCenterBoard () {
+      document.querySelector('.board__letters').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      })
     },
 
     checkWin () {
