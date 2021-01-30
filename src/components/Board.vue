@@ -146,7 +146,7 @@ export default {
   methods: {
     loadBackground () {
       const bgSet = this.backgrounds[this.settings.background]
-      const bg = bgSet.color || `url(${bgSet.url})`
+      const bg = bgSet.color || `url(${bgSet.url}) no-repeat`
       document.body.style.background = bg
     },
 
