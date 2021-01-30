@@ -1,0 +1,29 @@
+[
+  {
+    "iconName":"TriangleIcon",
+    "iconColor":"#00ce06",
+    "name":"Łatwy",
+    "height":8,
+    "width":6,
+    "minLetterSize":48,
+    "maxLetterSize":50
+  },
+  {
+    "iconName":"SquareIcon",
+    "iconColor":"#d17d00",
+    "name":"Średni",
+    "height":13,
+    "width":10,
+    "minLetterSize":30,
+    "maxLetterSize":35
+  },
+  {
+    "iconName":"HexagonIcon",
+    "iconColor":"#b80000",
+    "name":"Trudny",
+    "height":15,
+    "width":15,
+    "minLetterSize":20,
+    "maxLetterSize":35
+  }
+]

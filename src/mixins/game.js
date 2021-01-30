@@ -1,5 +1,90 @@
 import Vue from 'vue'
 export default {
+  data () {
+    return {
+      directions: [
+        {
+          name: 'horizontal',
+          // Highlight rotation in degrees
+          rotate: 0,
+          // Gives next letter position based on x, y - start position of the word and i - letters already fitted
+          nextLetterPos: (x, y, i) => ({ x: x + i, y: y }),
+          // Check if word on x, y coords with l length can fit in the board with given h height and w width
+          orientationCheck: (x, y, h, w, l) => w >= (x + l),
+          // Gives next position if x, y position was invalid from orientationCheck
+          nextWordPos: (x, y, l) => ({ x: 0, y: y + 1 }),
+          // Check direction by angle alpha return true if direction is horizontal
+          directionCheck: (alpha) => alpha < 22.5 && alpha > -22.5,
+          // Gives maximum width in grid units which highlight can have to reach the board edge starting from point x, y
+          maxWidth: (x, y, w, h) => w - (x + 1)
+        },
+        {
+          name: 'horizontalBack',
+          rotate: 180,
+          nextLetterPos: (x, y, i) => ({ x: x - i, y: y }),
+          orientationCheck: (x, y, h, w, l) => l <= (x + 1),
+          nextWordPos: (x, y, l) => ({ x: l - 1, y: y }),
+          directionCheck: (alpha) => (alpha > 157.5 && alpha <= 180) || (alpha < -157.5 && alpha >= -180),
+          maxWidth: (x, y, w, h) => x
+        },
+        {
+          name: 'vertical',
+          rotate: 90,
+          nextLetterPos: (x, y, i) => ({ x: x, y: y + i }),
+          orientationCheck: (x, y, h, w, l) => h >= y + l,
+          nextWordPos: (x, y, l) => ({ x: 0, y: y + 1000 }),
+          directionCheck: (alpha) => alpha < -67.5 && alpha > -112.5,
+          maxWidth: (x, y, w, h) => h - (y + 1)
+        },
+        {
+          name: 'verticalUp',
+          rotate: -90,
+          nextLetterPos: (x, y, i) => ({ x: x, y: y - i }),
+          orientationCheck: (x, y, h, w, l) => l <= (y + 1),
+          nextWordPos: (x, y, l) => ({ x: x, y: l - 1 }),
+          directionCheck: (alpha) => alpha > 67.5 && alpha < 112.5,
+          maxWidth: (x, y, w, h) => y
+        },
+        {
+          name: 'diagonal',
+          rotate: 45,
+          nextLetterPos: (x, y, i) => ({ x: x + i, y: y + i }),
+          orientationCheck: (x, y, h, w, l) => (x + l <= w) && (y + l <= h),
+          nextWordPos: (x, y, l) => ({ x: x, y: y + 1 }),
+          directionCheck: (alpha) => alpha >= -67.5 && alpha <= -22.5,
+          maxWidth: (x, y, w, h) => y > x ? h - 1 - y : w - 1 - x
+        },
+        {
+          name: 'diagonalBack',
+          rotate: 135,
+          nextLetterPos: (x, y, i) => ({ x: x - i, y: y + i }),
+          orientationCheck: (x, y, h, w, l) => (x + 1 >= l) && (y + l <= h),
+          nextWordPos: (x, y, l) => ({ x: l - 1, y: (x >= l - 1) ? y + 1 : y }),
+          directionCheck: (alpha) => alpha >= -157.5 && alpha <= -112.5,
+          maxWidth: (x, y, w, h) => x > 1 && y >= w - x ? h - 1 - y : x
+        },
+        {
+          name: 'diagonalUp',
+          rotate: -45,
+          nextLetterPos: (x, y, i) => ({ x: x + i, y: y - i }),
+          orientationCheck: (x, y, h, w, l) => (x + l <= w) && (y + 1 >= l),
+          nextWordPos: (x, y, l) => ({ x: 0, y: (y < l - 1) ? l - 1 : y + 1 }),
+          directionCheck: (alpha) => alpha >= 22.5 && alpha <= 67.5,
+          maxWidth: (x, y, w, h) => x > 0 && y >= w - x ? w - 1 - x : y
+        },
+        {
+          name: 'diagonalUpBack',
+          rotate: -135,
+          nextLetterPos: (x, y, i) => ({ x: x - i, y: y - i }),
+          orientationCheck: (x, y, h, w, l) => (x + 1 >= l) && (y + 1 >= l),
+          nextWordPos: (x, y, l) => ({ x: l - 1, y: (x >= l - 1) ? y + 1 : y }),
+          directionCheck: (alpha) => alpha <= 157.5 && alpha >= 112.5,
+          maxWidth: (x, y, w, h) => y > x ? x : y
+        }
+      ]
+    }
+  },
+
   methods: {
     fillBoard (empty) {
       this.board = []
@@ -151,6 +236,54 @@ export default {
           }
         }
       }
+    },
+
+    crossWord (word) {
+      const location = this.findAllLocations(this.board, this.w, this.h, word)[0]
+      if (!location) {
+        return
+      }
+      this.boardClick(null, {
+        x: location.x,
+        y: location.y
+      })
+      this.clickDirection = location.directionNumber
+      this.clickLength = word.length - 1
+      this.highlights[this.highlights.length - 1].width = 2 * this.letterSize / 3 + this.clickLength * (location.direction.name.search('diag') + 1 ? this.letterSize * Math.sqrt(2) : this.letterSize) + 'px'
+      this.highlights[this.highlights.length - 1].transform = 'rotate(' + location.direction.rotate + 'deg)'
+      this.boardClickRelease({
+        target: {
+          className: 'board__letter'
+        }
+      })
+      this.crossedHints++
+    },
+
+    restartGame () {
+      this.highlights = []
+      this.boardWords = []
+      this.crossedWords = []
+      this.win = false
+      this.loaded = false
+      this.fillBoard()
+      this.started = true
+      this.firstGame = false
+      this.scrollCenterBoard()
+    },
+
+    shuffleArray (array) {
+      let m = array.length
+      let t
+      let i
+
+      while (m) {
+        i = Math.floor(Math.random() * m--)
+        t = array[m]
+        array[m] = array[i]
+        array[i] = t
+      }
+
+      return array
     }
   }
 }
