@@ -27,6 +27,7 @@ body.fontLoaded * {
 }
 
 body {
+  background-attachment: fixed !important;
   background-size: cover !important;
   background-position: center !important;
 }
