@@ -21,6 +21,8 @@
         </div>
         <BottomMenu
           ref="bottomMenu"
+          :words="boardWords"
+          :crossedWords="crossedWords"
           :settings="settings"
           :categories="categories"
           :difficultyLevels="difficultyLevels"
@@ -88,7 +90,7 @@ export default {
       settings: {
         difficulty: 1,
         category: 'animals',
-        background: 3
+        background: 6
       },
       difficultyLevels: [
         { iconName: 'TriangleIcon', iconColor: '#00ce06', name: 'Łatwy', height: 8, width: 6, minLetterSize: 48, maxLetterSize: 50 },
@@ -101,14 +103,15 @@ export default {
         { name: 'Jedzenie', value: 'food' }
       ],
       backgrounds: [
-        { name: 'Brak', color: 'white', border: '#a4a4a47a', board: 'transparent' },
-        { name: 'Fale', border: '#A8E5FF', url: '/images/just-waves.webp', board: '#ffffff29' },
-        { name: 'Liście', border: '#d3e6ab', url: '/images/leaves.webp', board: '#ffffff29' },
-        { name: 'Słońce', border: '#FFD1D1', url: '/images/let-there-be-sun.webp', board: '#ffffff29' },
-        { name: 'Zmarszczki', border: '#dfdfdf', url: '/images/ripples.webp', board: '#ffffff29' },
-        { name: 'Kropki', border: '#FFD1D1', url: '/images/watercolor.webp', board: '#ffffff29' },
-        { name: 'Pszenica', border: '#828282', url: '/images/wheat.webp', board: '#ffffff94' },
-        { name: 'Czarny', color: 'black', border: '#515151', board: '#ffffff63' }
+        { name: 'Brak', color: 'white', border: '#808080', board: 'transparent' },
+        { name: 'Lampiony', border: '#000000', url: '/images/chinese.webp', board: '#ffffff29' },
+        { name: 'Klif', border: '#515151', url: '/images/mountains.webp', board: '#ffffff29' },
+        { name: 'Noc', border: '#515151', url: '/images/night.webp', board: '#ffffff29' },
+        { name: 'Pagoda', border: '#6e6e6e', url: '/images/pagoda.webp', board: '#ffffff29' },
+        { name: 'Pola ryżowe', border: '#515151', url: '/images/scenery.webp', board: '#ffffff29' },
+        { name: 'Pies', border: '#858383', url: '/images/dog.webp', board: '#ffffff94' },
+        { name: 'Watykan', border: '#000000', url: '/images/vatican.webp', board: '#ffffff63' },
+        { name: 'Włochy', border: '#808080', url: '/images/italy.webp', board: '#ffffff63' }
       ],
       h: 10,
       w: 10,
@@ -234,8 +237,8 @@ export default {
       const background = this.backgrounds[this.settings.background]
       return {
         '--background': background.url ? `url("${background.url}")` : 'white',
-        '--borderColor': background.border,
-        '--boardBackground': background.board
+        '--borderColor': background.border
+        // '--boardBackground': background.board
       }
     }
   },
@@ -525,7 +528,6 @@ export default {
     &:first-of-type .board__letter:after {
       height: calc(100% - 1px);
       border-bottom: 1px solid var(--borderColor);
-      // border-top: 1px solid var(--borderColor);
     }
 
     &:not(:first-of-type) .board__letter:after {
@@ -579,7 +581,8 @@ export default {
       height: 100%;
       pointer-events: none;
       z-index: -2;
-      background: var(--boardBackground);
+      background-color: rgba(255, 255, 255, .34);
+      backdrop-filter: blur(5px);
     }
   }
 

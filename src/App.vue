@@ -25,4 +25,9 @@ body * {
 body.fontLoaded * {
   font-family: 'Roboto Mono', monospace;
 }
+
+body {
+  background-size: cover !important;
+  background-position: center !important;
+}
 </style>

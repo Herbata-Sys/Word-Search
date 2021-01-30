@@ -146,21 +146,25 @@ export default {
   display: flex;
   justify-content: space-between;
   border: 1px solid #ebe9e9;
-  padding: 10px;
+  padding-right: 10px;
   border-radius: 10px 10px 0 0;
   background: white;
   border-left: none;
   border-right: none;
+  min-height: 51px;
 
   &__arrow {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    padding: 10px;
   }
 
   &__count {
+    display: none;
     font-size: 0.6rem;
+    font-weight: bold;
     color: rgb(100, 100, 100);
   }
 
@@ -181,7 +185,6 @@ export default {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-left: -5px;
     margin-right: 15px;
     align-items: center;
   }
@@ -191,6 +194,9 @@ export default {
     text-transform: uppercase;
     font-weight: 500;
     font-size: 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   &__win {

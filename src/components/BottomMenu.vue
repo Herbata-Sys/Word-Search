@@ -15,6 +15,9 @@
     </div>
     <div class="menuB__wrapper">
       {{ categories.find(c => c.value === settings.category).name }}
+      <span v-if="words.length" class="menuB__words">
+        ({{ words.length - crossedWords.length }})
+      </span>
     </div>
     <div class="menuB__wrapper">
       <div>
@@ -47,7 +50,9 @@ export default {
     crossedHints: Number,
     categories: Array,
     difficultyLevels: Array,
-    settings: Object
+    settings: Object,
+    words: Array,
+    crossedWords: Array
   },
 
   data () {
@@ -136,6 +141,11 @@ export default {
   &__difficultyIcon {
     margin-right: 5px;
     display: flex;
+  }
+
+  &__words {
+    padding-left: 5px;
+    font-weight: 600;
   }
 }
 </style>
