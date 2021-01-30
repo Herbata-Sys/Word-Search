@@ -53,11 +53,11 @@
 </template>
 
 <script>
+import game from '../mixins/game'
+import NewGame from './NewGame'
 import Menu from './Menu'
 import BottomMenu from './BottomMenu'
-import Settings from './Settings'
-import NewGame from './NewGame'
-import game from '../mixins/game'
+const Settings = () => import('./Settings')
 
 export default {
   name: 'Board',

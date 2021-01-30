@@ -15,5 +15,10 @@ module.exports = {
     workboxOptions: {
       swSrc: 'src/service-worker.js'
     }
+  },
+  configureWebpack:{
+    performance: {
+      hints: false
+    }
   }
 }
