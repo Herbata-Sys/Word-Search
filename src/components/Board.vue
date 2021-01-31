@@ -1,127 +1,26 @@
 <template>
-  <div class="board" :style="boardStyles">
-    <div class="board__container">
-      <div class="board__wrapper">
-        <Menu
-          :win="win"
-          :words="boardWords"
-          :crossedWords="crossedWords"
-          @hint-clicked="crossWord"
-          @show-settings="openSettings"
-        />
-        <div class="board__letters" v-show="loaded">
-          <div class="board__row" v-for="(row, y) in board" :key="y">
-            <div class="board__letter" :data-x="x" :data-y="y" v-for="(letter, x) in row" :key="letter + x" :style="letterStyle">
-              <span>{{ letter }}</span>
-            </div>
-          </div>
-          <div class="board__highlights">
-            <div v-for="(highlight, index) in highlights" :key="index" class="board__highlight" :style="highlightStyle(highlight)" />
-          </div>
-        </div>
-        <BottomMenu
-          ref="bottomMenu"
-          :words="boardWords"
-          :crossedWords="crossedWords"
-          :settings="settings"
-          :categories="categories"
-          :difficultyLevels="difficultyLevels"
-          :crossedHints="crossedHints"
-        />
-
-        <Settings
-          v-if="showSettings"
-          :categories="categories"
-          :settingsInitial="settings"
-          :difficultyLevels="difficultyLevels"
-          :backgrounds="backgrounds"
-          @close-settings="closeSettings"
-          @save="saveSettings"
-        />
-
-        <NewGame
-          v-if="win || firstGame"
-          :win="win"
-          :time="$refs.bottomMenu ? $refs.bottomMenu.time : 0"
-          :breakRecord="false"
-          @restart="restartGame"
-        />
+  <div class="board" v-show="loaded" :style="boardStyles">
+    <div class="board__row" v-for="(row, y) in board" :key="y">
+      <div class="board__letter" :data-x="x" :data-y="y" v-for="(letter, x) in row" :key="letter + x" :style="letterStyle">
+        <span>{{ letter }}</span>
       </div>
     </div>
-    <br />
+    <div class="board__highlights">
+      <div v-for="(highlight, index) in highlights" :key="index" class="board__highlight" :style="highlightStyle(highlight)" />
+    </div>
   </div>
 </template>
 
 <script>
-import game from '../mixins/game'
-import NewGame from './NewGame'
-import Menu from './Menu'
-import BottomMenu from './BottomMenu'
-const Settings = () => import('./Settings')
-
 export default {
   name: 'Board',
 
-  mixins: [
-    game
-  ],
-
-  components: {
-    Menu,
-    BottomMenu,
-    Settings,
-    NewGame
-  },
-
-  data () {
-    return {
-      firstGame: true,
-      started: false,
-      win: false,
-      showSettings: false,
-      letterSize: 30,
-      loaded: false,
-      board: [],
-      boardWithLetters: [],
-      words: [],
-      boardWords: [],
-      crossedWords: [],
-      highlights: [],
-      settings: {
-        difficulty: 1,
-        category: 'animals',
-        background: 6
-      },
-      difficultyLevels: require('@/assets/settings/difficultyLevels.json'),
-      categories: require('@/assets/settings/categories.json'),
-      backgrounds: require('@/assets/settings/backgrounds.json'),
-      h: 10,
-      w: 10,
-      click: null,
-      clickLength: 0,
-      clickDirection: -1,
-      crossedHints: 0
-    }
-  },
-
-  created () {
-    if (localStorage.settings) {
-      this.settings = JSON.parse(localStorage.settings)
-    }
-    this.initiateWords(this.settings)
-    this.loadBackground()
-  },
-
-  mounted () {
-    this.fillBoard(true)
-    this.addEvents()
-    this.started = true
-  },
-
-  watch: {
-    crossedWords () {
-      this.checkWin()
-    }
+  props: {
+    loaded: Boolean,
+    board: Array,
+    highlights: Array,
+    letterSize: Number,
+    borderColor: String
   },
 
   computed: {
@@ -135,219 +34,19 @@ export default {
     },
 
     boardStyles () {
-      const background = this.backgrounds[this.settings.background]
       return {
-        '--background': background.url ? `url("${background.url}")` : 'white',
-        '--borderColor': background.border
+        '--borderColor': this.borderColor
       }
     }
   },
 
   methods: {
-    loadBackground () {
-      const bgSet = this.backgrounds[this.settings.background]
-      const bg = bgSet.color || `url(${bgSet.url}) no-repeat`
-      document.body.style.background = bg
-    },
-
-    scrollCenterBoard () {
-      document.querySelector('.board__letters').scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      })
-    },
-
-    checkWin () {
-      if (this.crossedWords.length === this.boardWords.length && this.started) {
-        this.started = false
-        this.$refs.bottomMenu.stopTimer()
-        this.win = true
-      }
-    },
-
-    openSettings () {
-      this.$refs.bottomMenu.stopTimer()
-      this.showSettings = true
-    },
-
-    closeSettings () {
-      if (!this.win) {
-        this.$refs.bottomMenu.startTimer()
-      }
-      this.showSettings = false
-    },
-
-    saveSettings (s) {
-      this.settings = Object.assign({}, s)
-      localStorage.settings = JSON.stringify(this.settings)
-      this.loadBackground()
-      this.closeSettings()
-      this.restartGame()
-    },
-
     highlightStyle (highlight) {
       const transformX = 0.34 * this.letterSize
       const transformY = 0.35 * this.letterSize
-      return {
-        top: highlight.top,
-        left: highlight.left,
-        width: highlight.width,
-        height: highlight.height,
-        transform: highlight.transform,
-        background: highlight.background,
-        transformOrigin: `${transformX}px ${transformY}px`
-      }
-    },
-
-    addEvents () {
-      document.addEventListener('mousemove', this.boardMouseMove)
-      document.querySelector('.board__letters').addEventListener('touchmove', this.preventRefresh, { passive: false })
-      document.addEventListener('touchmove', this.boardMouseMove, { passive: true })
-      document.querySelector('.board').addEventListener('pointerdown', this.boardClick)
-      document.addEventListener('mouseup', this.boardClickRelease)
-      document.addEventListener('touchend', this.boardClickRelease, { passive: true })
-      document.addEventListener('touchcancel', this.boardClickRelease, { passive: true })
-      window.addEventListener('resize', this.onResize)
-    },
-
-    onResize () {
-      if (!this.highlights.length) {
-        this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
-      }
-    },
-
-    preventRefresh (e) {
-      e.preventDefault()
-    },
-
-    boardMouseMove (e) {
-      if (this.click) {
-        e = e.touches ? e.touches[0] : e
-        const click = this.click
-        let diag = false
-        let rotate = 0
-        let maxWidth = 0
-        const pointX = this.click.clickX < e.clientX ? e.clientX - this.click.clickX : -1 * (this.click.clickX - e.clientX)
-        const pointY = this.click.clickY > e.clientY ? (this.click.clickY - e.clientY) : -1 * (e.clientY - this.click.clickY)
-        const alpha = Math.atan2(pointY, pointX) * 180 / Math.PI
-
-        for (const index in this.directions) {
-          const direction = this.directions[index]
-          if (direction.directionCheck(alpha)) {
-            const notDiagonals = ['horizontal', 'vertical', 'horizontalBack', 'verticalUp']
-            rotate = direction.rotate
-            maxWidth = direction.maxWidth(click.x, click.y, this.w, this.h)
-            if (notDiagonals.includes(direction.name)) {
-              this.clickLength = Math.trunc((Math.sqrt((e.clientX - click.clickX) * (e.clientX - click.clickX) + (e.clientY - click.clickY) * (e.clientY - click.clickY)) - this.letterSize / 2) / this.letterSize + 1)
-            } else {
-              this.clickLength = Math.trunc((Math.sqrt((e.clientX - click.clickX) * (e.clientX - click.clickX) + (e.clientY - click.clickY) * (e.clientY - click.clickY)) - this.letterSize * Math.sqrt(2) / 2) / (this.letterSize * Math.sqrt(2)) + 1)
-              diag = true
-            }
-
-            this.clickLength = this.clickLength > maxWidth ? maxWidth : this.clickLength
-            this.clickDirection = index
-            break
-          }
-        }
-
-        if (this.clickLength < 1) {
-          rotate = 0
-        }
-
-        if (this.highlights.length) {
-          this.highlights[this.highlights.length - 1].width = 0.7 * this.letterSize + (this.clickLength < maxWidth ? this.clickLength : maxWidth) * (diag ? this.letterSize * Math.sqrt(2) : this.letterSize) + 'px'
-          this.highlights[this.highlights.length - 1].transform = 'rotate(' + rotate + 'deg)'
-        }
-      }
-    },
-
-    boardClick (e, coords) {
-      if (this.click) {
-        this.removeTempHighlight()
-        this.click = null
-      }
-      this.clickLength = 0
-      this.clickDirection = -1
-      if ((e && e.target.className === 'board__letter') || coords) {
-        let rect = null
-        if (e) {
-          rect = e.target.getBoundingClientRect()
-        }
-        this.click = {
-          x: parseInt(e ? e.target.dataset.x : coords.x),
-          y: parseInt(e ? e.target.dataset.y : coords.y),
-          clickX: e ? rect.x + e.target.offsetWidth / 2 : 0,
-          clickY: e ? rect.y + e.target.offsetHeight / 2 : 0
-        }
-
-        this.highlights.push({
-          top: this.click.y * this.letterSize + 0.158 * this.letterSize + 'px',
-          left: this.click.x * this.letterSize + 0.153 * this.letterSize + 'px',
-          width: this.letterSize * 0.7 + 'px',
-          height: this.letterSize * 0.7 + 'px',
-          transform: 'rotate(0)',
-          background: this.generateColor(),
-          placed: false
-        })
-      }
-    },
-
-    boardClickRelease (e) {
-      if (e.target.className === 'board__letter' && this.click && (this.clickDirection + 1)) {
-        let word = ''
-
-        // Find word that player crossed out
-        for (let i = 0; i < this.clickLength + 1; i++) {
-          const nextPos = this.directions[this.clickDirection].nextLetterPos(this.click.x, this.click.y, i)
-          word += this.board[nextPos.y][nextPos.x]
-        }
-
-        // Check if player hit correct word
-        const checkedWord = this.checkWord(word)
-        if (checkedWord) {
-          this.crossedWords.push(checkedWord)
-          this.highlights[this.highlights.length - 1].placed = true
-        } else {
-          this.removeTempHighlight()
-        }
-
-        this.click = null
-      } else {
-        this.removeTempHighlight()
-        this.click = null
-      }
-    },
-
-    checkWord (word) {
-      // Return word if word is not crossed out and is included in words on board
-      if (this.crossedWords.includes(word) || this.crossedWords.includes(this.reverseString(word))) {
-        return false
-      } else {
-        const reversedWord = this.reverseString(word)
-        if (this.boardWords.includes(word)) {
-          return word
-        } else if (this.boardWords.includes(reversedWord)) {
-          return reversedWord
-        }
-      }
-    },
-
-    removeTempHighlight () {
-      const index = this.highlights.slice().reverse().findIndex(v => v.placed === false)
-      if (index + 1) {
-        this.highlights.splice(this.highlights.length - index - 1, 1)
-      }
-    },
-
-    generateColor () {
-      const h = Math.floor(Math.random() * (360 + 1))
-      const s = 90
-      const l = Math.floor(Math.random() * (55 - 40)) + 40
-      return `hsla(${h}, ${s}%, ${l}%, .45)`
-    },
-
-    reverseString (s) {
-      return (s === '') ? '' : this.reverseString(s.substr(1)) + s.charAt(0)
+      const styles = Object.assign({}, highlight)
+      styles.transformOrigin = `${transformX}px ${transformY}px`
+      return styles
     }
   }
 }
@@ -355,23 +54,22 @@ export default {
 
 <style scoped lang="scss">
 .board {
-  margin: 50px auto;
-  user-select: none;
+  position: relative;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
 
-  &__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  &__wrapper {
-    box-shadow: 0px 0px 6px 4px #00000014;
-    border-radius: 10px;
-    position: relative;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    background-color: rgba(255, 255, 255, .34);
+    backdrop-filter: blur(5px);
   }
 
   &__row {
@@ -389,12 +87,11 @@ export default {
 
     &:nth-last-of-type(2) {
 
-      .board__letter:after {
-        height: 100%;
-        border-bottom: none;
-      }
-
       .board__letter {
+        &:after {
+          height: 100%;
+          border-bottom: none;
+        }
 
         &:first-child:after {
           border-bottom-left-radius: 10px;
@@ -414,32 +111,7 @@ export default {
     border: 2px solid rgba(0, 0, 0, 0.09);
   }
 
-  &__letters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    margin: auto;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -2;
-      background-color: rgba(255, 255, 255, .34);
-      backdrop-filter: blur(5px);
-    }
-  }
-
   &__letter {
-    font-family: monospace;
     font-size: 1.25rem;
     display: flex;
     justify-content: center;
@@ -468,8 +140,7 @@ export default {
     }
 
     &:not(:first-child):after {
-      border-left: none;
-      width: calc(100%);
+      width: 100%;
     }
   }
 }

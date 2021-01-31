@@ -1,52 +1,47 @@
 [
   {
     "name":"Brak",
-    "color":"white",
-    "border":"#808080",
-    "board":"transparent"
+    "border":"#7b7b7b26",
+    "color":"white"
   },
   {
     "name":"Lampiony",
-    "border":"#000000",
-    "url":"/images/chinese.webp",
-    "board":"#ffffff29"
+    "border":"#7b7b7b26",
+    "url":"/images/chinese.webp"
   },
   {
     "name":"Klif",
-    "border":"#515151",
-    "url":"/images/mountains.webp",
-    "board":"#ffffff29"
+    "border":"#7b7b7b26",
+    "url":"/images/mountains.webp"
   },
   {
     "name":"Noc",
-    "border":"#515151",
-    "url":"/images/night.webp",
-    "board":"#ffffff29"
+    "border":"#7b7b7b26",
+    "url":"/images/night.webp"
   },
   {
     "name":"Pagoda",
-    "border":"#6e6e6e",
-    "url":"/images/pagoda.webp",
-    "board":"#ffffff29"
+    "border":"#7b7b7b26",
+    "url":"/images/pagoda.webp"
   },
   {
     "name":"Pola ryżowe",
-    "border":"#515151",
+    "border":"#7b7b7b26",
     "url":"/images/scenery.webp"
   },
   {
     "name":"Pies",
-    "border":"#858383",
+    "border":"#7b7b7b26",
     "url":"/images/dog.webp"
   },
   {
     "name":"Watykan",
-    "border":"#000000",
+    "border":"#7b7b7b26",
     "url":"/images/vatican.webp"
   },
   {
     "name":"Włochy",
-    "border":"#808080",
+    "border":"#7b7b7b26",
     "url":"/images/italy.webp"
   }
 ]

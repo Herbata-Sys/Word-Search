@@ -1,34 +1,50 @@
 <template>
   <div id="app">
-    <Board />
+    <Game class="game" />
   </div>
 </template>
 
 <script>
-import Board from './components/Board'
+import Game from './components/Game'
 
 export default {
   name: 'App',
 
   components: {
-    Board
+    Game
   }
 }
 </script>
 
 <style lang="scss">
-body * {
-  box-sizing: border-box;
-  font-family: monospace;
-}
-
-body.fontLoaded * {
-  font-family: 'Roboto Mono', monospace;
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 body {
+  margin: 10px;
+  padding: 0;
   background-attachment: fixed !important;
   background-size: cover !important;
   background-position: center !important;
+
+  * {
+    box-sizing: border-box;
+    font-family: 'Inconsolata', monospace;
+  }
+}
+
+html {
+  font-size: 17px;
+}
+</style>
+
+<style lang="scss" scoped>
+.game {
+  min-height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="menu">
     <div class="menu__words">
       <div class="menu__arrow" @click="prevWord">
-        <ChevronLeftIcon size="18" :color="!wordIndex ? '#bebebe' : 'black'" class="menu__icon" />
+        <ChevronLeftIcon size="25" :color="!wordIndex ? '#bebebe' : 'black'" class="menu__icon" />
         <div class="menu__count" v-if="availableWords.length">
           {{ wordIndex + 1 }}
         </div>
@@ -15,7 +15,7 @@
         {{ availableWords.length ? availableWords[wordIndex] : (win ?'Wygrałeś!' : welcomeText) }}
       </div>
       <div class="menu__arrow" @click="nextWord">
-        <ChevronRightIcon size="18" :color="reachedEnd ? '#bebebe' : 'black'" class="menu__icon" />
+        <ChevronRightIcon size="25" :color="reachedEnd ? '#bebebe' : 'black'" class="menu__icon" />
         <div class="menu__count" v-if="availableWords.length">
           {{ availableWords.length }}
         </div>
@@ -25,6 +25,13 @@
       <Maximize2Icon size="20" color="#0043ff" class="menu__icon" v-if="!fullscreen" @click="toggleFullscreen" />
       <Minimize2Icon size="20" color="#a800ed" class="menu__icon" v-else @click="toggleFullscreen" />
       <SettingsIcon size="21" color="#ed6300" class="menu__icon" @click="$emit('show-settings')" />
+      <img
+        src="/img/icons/android-chrome-192x192.png"
+        alt="Wykreślanka logo"
+        class="menu__logo"
+        width="40px"
+        height="40px"
+      >
     </div>
   </div>
 </template>
@@ -69,6 +76,12 @@ export default {
 
       if ((pickedWordIndex + 1) && (this.wordIndex !== pickedWordIndex)) {
         this.wordIndex = pickedWordIndex
+      }
+    },
+
+    crossedWords (val) {
+      if (val && !val.length) {
+        this.wordIndex = 0
       }
     }
   },
@@ -145,20 +158,27 @@ export default {
 .menu {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: 1px solid #ebe9e9;
   padding-right: 10px;
   border-radius: 10px 10px 0 0;
   background: white;
   border-left: none;
   border-right: none;
-  min-height: 51px;
+  height: 51px;
+  overflow: auto;
+
+  &__logo {
+    height: 40px;
+    margin-left: -8px;
+  }
 
   &__arrow {
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 2px;
   }
 
   &__count {
@@ -185,7 +205,7 @@ export default {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-right: 15px;
+    margin-right: 5px;
     align-items: center;
   }
 
@@ -197,6 +217,7 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
+    white-space: nowrap;
   }
 
   &__win {
