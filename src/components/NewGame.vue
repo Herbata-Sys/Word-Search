@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ConfettiGenerator from 'confetti-js'
+import confetti from 'canvas-confetti'
 import { AwardIcon, PlayIcon } from 'vue-feather-icons'
 import time from '../mixins/time'
 
@@ -42,25 +42,24 @@ export default {
   },
 
   mounted () {
-    if (!this.win) {
-      return
+    this.throwConfetti()
+  },
+
+  methods: {
+    throwConfetti () {
+      if (!this.win) {
+        return
+      }
+      const myConfetti = confetti.create(document.querySelector('#confetti'), {
+        resize: true,
+        useWorker: true
+      })
+      myConfetti({
+        particleCount: document.querySelector('#confetti').offsetWidth * 0.8,
+        spread: document.querySelector('#confetti').offsetWidth * 0.15,
+        origin: { y: 0.4 }
+      })
     }
-    const confettiSettings = {
-      target: 'confetti',
-      max: '80',
-      size: '1',
-      animate: true,
-      props: ['square', 'line'],
-      colors: [[165, 104, 246], [230, 61, 135], [0, 199, 228], [253, 214, 126]],
-      clock: '20',
-      rotate: false,
-      width: document.querySelector('#confetti').offsetWidth,
-      height: document.querySelector('#confetti').offsetHeight,
-      start_from_edge: true,
-      respawn: true
-    }
-    const confetti = new ConfettiGenerator(confettiSettings)
-    confetti.render()
   }
 }
 </script>

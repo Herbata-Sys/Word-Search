@@ -66,7 +66,7 @@ export default {
   watch: {
     crossedHints (val) {
       if (val) {
-        this.time += 15
+        this.time += 25
       }
     }
   },
