@@ -30,7 +30,7 @@
         />
 
         <Settings
-          v-show="showSettings"
+          v-if="showSettings"
           :categories="categories"
           :settingsInitial="settings"
           :difficultyLevels="difficultyLevels"
