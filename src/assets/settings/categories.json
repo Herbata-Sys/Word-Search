@@ -10,5 +10,9 @@
   {
     "name":"Jedzenie",
     "value":"food"
+  },
+  {
+    "name":"Kraje",
+    "value":"countries"
   }
 ]
