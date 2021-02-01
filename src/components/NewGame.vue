@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import confetti from 'canvas-confetti'
 import { AwardIcon, PlayIcon } from 'vue-feather-icons'
 import time from '../mixins/time'
+const confetti = () => import('canvas-confetti')
 
 export default {
   name: 'NewGame',
@@ -50,14 +50,16 @@ export default {
       if (!this.win) {
         return
       }
-      const myConfetti = confetti.create(document.querySelector('#confetti'), {
-        resize: true,
-        useWorker: true
-      })
-      myConfetti({
-        particleCount: document.querySelector('#confetti').offsetWidth * 0.8,
-        spread: document.querySelector('#confetti').offsetWidth * 0.15,
-        origin: { y: 0.4 }
+      confetti().then((confetti) => {
+        const myConfetti = confetti.create(document.querySelector('#confetti'), {
+          resize: true,
+          useWorker: true
+        })
+        myConfetti({
+          particleCount: document.querySelector('#confetti').offsetWidth * 0.8,
+          spread: document.querySelector('#confetti').offsetWidth * 0.15,
+          origin: { y: 0.4 }
+        })
       })
     }
   }
