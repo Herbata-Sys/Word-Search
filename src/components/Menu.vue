@@ -38,7 +38,7 @@
       />
       <SettingsIcon size="21" color="#ed6300" class="menu__icon" @click="$emit('show-settings')" />
       <img
-        src="/img/icons/android-chrome-192x192.png"
+        :src="require('@/assets/img/logo.webp')"
         alt="Wykreślanka logo"
         class="menu__logo"
         width="40px"

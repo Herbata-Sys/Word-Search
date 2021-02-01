@@ -1,3 +1,16 @@
+const excludeBackgrounds = () => {
+  const bgs = require('./src/assets/settings/backgrounds.json')
+  const exclude = []
+  bgs.forEach((bg, index) => {
+    if (index !== 6 && bg.url) {
+      const regex = `${bg.url.replace('/images/', '').replace('.', '\\.')}$`
+      exclude.push(new RegExp(regex))
+    }
+  })
+  console.log(exclude)
+  return exclude
+}
+
 module.exports = {
   pwa: {
     workboxPluginMode: 'InjectManifest',
@@ -15,7 +28,8 @@ module.exports = {
       background_color: "#FFFFFF"
     },
     workboxOptions: {
-      swSrc: 'src/assets/js/service-worker.js'
+      swSrc: 'src/assets/js/service-worker.js',
+      exclude: excludeBackgrounds()
     }
   },
   configureWebpack:{
