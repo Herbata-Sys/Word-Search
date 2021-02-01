@@ -109,18 +109,22 @@ export default {
   },
 
   mounted () {
-    document.onfullscreenchange = (f) => {
-      this.fullscreen = document.fullscreen
+    document.onfullscreenchange = () => {
+      this.fullscreen = this.isFullScreenMode()
     }
   },
 
   methods: {
     toggleFullscreen () {
-      if (!document.fullscreen) {
+      if (!this.isFullScreenMode()) {
         document.documentElement.requestFullscreen()
       } else {
         document.exitFullscreen()
       }
+    },
+
+    isFullScreenMode () {
+      return document.fullscreenElement !== null
     },
 
     crossWord () {

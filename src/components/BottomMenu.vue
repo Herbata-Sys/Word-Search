@@ -71,6 +71,10 @@ export default {
     }
   },
 
+  created () {
+    this.initiateTimer()
+  },
+
   computed: {
     difficulty () {
       return this.difficultyLevels[this.settings.difficulty - 1]
