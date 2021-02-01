@@ -7,7 +7,6 @@ const excludeBackgrounds = () => {
       exclude.push(new RegExp(regex))
     }
   })
-  console.log(exclude)
   return exclude
 }
 

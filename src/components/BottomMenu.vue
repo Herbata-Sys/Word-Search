@@ -131,7 +131,7 @@ export default {
   padding: 6px 10px;
   border-radius: 0 0 10px 10px;
   font-size: 0.7rem;
-  font-weight: 400;
+  font-weight: 500;
   background: white;
   border-left: none;
   border-right: none;

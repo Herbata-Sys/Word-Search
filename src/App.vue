@@ -28,15 +28,23 @@ body {
   background-size: cover !important;
   background-position: center !important;
   overscroll-behavior: none;
+  font-family: monospace;
 
   * {
     box-sizing: border-box;
-    font-family: 'Inconsolata', monospace;
   }
 }
 
 html {
-  font-size: 17px;
+
+  &.fontLoaded {
+    font-size: 17px;
+
+    body {
+      font-family: 'Inconsolata', monospace;
+      letter-spacing: 0.6px;
+    }
+  }
 }
 </style>
 

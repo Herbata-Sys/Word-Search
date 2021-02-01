@@ -49,10 +49,7 @@
 </template>
 
 <script>
-import { SettingsIcon } from 'vue-feather-icons'
-const ChevronRightIcon = () => import('vue-feather-icons/icons/ChevronRightIcon')
-const ChevronLeftIcon = () => import('vue-feather-icons/icons/ChevronLeftIcon')
-const Maximize2Icon = () => import('vue-feather-icons/icons/Maximize2Icon')
+import { SettingsIcon, Maximize2Icon, ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
 const Minimize2Icon = () => import('vue-feather-icons/icons/Minimize2Icon')
 
 export default {
