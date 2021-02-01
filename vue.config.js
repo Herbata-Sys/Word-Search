@@ -13,7 +13,7 @@ module.exports = {
       background_color: "#FFFFFF"
     },
     workboxOptions: {
-      swSrc: 'src/service-worker.js'
+      swSrc: 'src/assets/js/service-worker.js'
     }
   },
   configureWebpack:{

@@ -7,4 +7,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-require('./registerServiceWorker')
+require('./assets/js/registerServiceWorker')
