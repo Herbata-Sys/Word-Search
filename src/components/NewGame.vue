@@ -19,9 +19,10 @@
 </template>
 
 <script>
-import { AwardIcon, PlayIcon } from 'vue-feather-icons'
 import time from '../mixins/time'
+import { PlayIcon } from 'vue-feather-icons'
 const confetti = () => import('canvas-confetti')
+const AwardIcon = () => import('vue-feather-icons/icons/AwardIcon')
 
 export default {
   name: 'NewGame',
