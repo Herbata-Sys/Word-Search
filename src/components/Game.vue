@@ -257,7 +257,7 @@ export default {
           width: this.letterSize * 0.7 + 'px',
           height: this.letterSize * 0.7 + 'px',
           transform: 'rotate(0)',
-          background: this.generateColor(),
+          backgroundColor: this.generateColor(),
           placed: false
         })
       }

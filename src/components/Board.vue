@@ -109,6 +109,7 @@ export default {
     position: absolute;
     pointer-events: none;
     border: 2px solid rgba(0, 0, 0, 0.09);
+    will-change: transform;
   }
 
   &__letter {
