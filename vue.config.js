@@ -3,6 +3,7 @@ module.exports = {
     workboxPluginMode: 'InjectManifest',
     themeColor: '#FFFFFF',
     manifestOptions: {
+      start_url: "./?installed=true",
       name: "Wykreślanka",
       short_name: "Wykreślanka",
       display: "fullscreen",

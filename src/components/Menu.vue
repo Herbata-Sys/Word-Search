@@ -22,8 +22,20 @@
       </div>
     </div>
     <div class="menu__wrapper">
-      <Maximize2Icon size="20" color="#0043ff" class="menu__icon" v-if="!fullscreen" @click="toggleFullscreen" />
-      <Minimize2Icon size="20" color="#a800ed" class="menu__icon" v-else @click="toggleFullscreen" />
+      <Maximize2Icon
+        v-if="!fullscreen && isBrowser()"
+        size="20"
+        color="#0043ff"
+        class="menu__icon"
+        @click="toggleFullscreen"
+      />
+      <Minimize2Icon
+        v-else-if="fullscreen && isBrowser()"
+        size="20"
+        color="#a800ed"
+        class="menu__icon"
+        @click="toggleFullscreen"
+      />
       <SettingsIcon size="21" color="#ed6300" class="menu__icon" @click="$emit('show-settings')" />
       <img
         src="/img/icons/android-chrome-192x192.png"
@@ -115,6 +127,12 @@ export default {
   },
 
   methods: {
+    isBrowser () {
+      const urlParams = new URLSearchParams(window.location.search)
+      const isInstalled = urlParams.get('installed')
+      return !isInstalled
+    },
+
     toggleFullscreen () {
       if (!this.isFullScreenMode()) {
         document.documentElement.requestFullscreen()
@@ -175,6 +193,7 @@ export default {
   &__logo {
     height: 40px;
     margin-left: -8px;
+    margin-right: -4px;
   }
 
   &__arrow {

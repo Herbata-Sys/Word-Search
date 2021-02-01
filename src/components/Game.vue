@@ -172,7 +172,6 @@ export default {
 
     addEvents () {
       document.addEventListener('mousemove', this.boardMouseMove)
-      document.querySelector('.board').addEventListener('touchmove', this.preventRefresh, { passive: false })
       document.addEventListener('touchmove', this.boardMouseMove, { passive: true })
       document.querySelector('.board').addEventListener('pointerdown', this.boardClick)
       document.addEventListener('mouseup', this.boardClickRelease)
@@ -185,10 +184,6 @@ export default {
       if (!this.highlights.length) {
         this.setLetterSize(this.difficultyLevels, this.settings.difficulty)
       }
-    },
-
-    preventRefresh (e) {
-      e.preventDefault()
     },
 
     boardMouseMove (e) {

@@ -27,6 +27,7 @@ body {
   background-attachment: fixed !important;
   background-size: cover !important;
   background-position: center !important;
+  overscroll-behavior: none;
 
   * {
     box-sizing: border-box;
