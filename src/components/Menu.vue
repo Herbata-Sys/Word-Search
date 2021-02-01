@@ -49,7 +49,11 @@
 </template>
 
 <script>
-import { Maximize2Icon, Minimize2Icon, SettingsIcon, ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { SettingsIcon } from 'vue-feather-icons'
+const ChevronRightIcon = () => import('vue-feather-icons/icons/ChevronRightIcon')
+const ChevronLeftIcon = () => import('vue-feather-icons/icons/ChevronLeftIcon')
+const Maximize2Icon = () => import('vue-feather-icons/icons/Maximize2Icon')
+const Minimize2Icon = () => import('vue-feather-icons/icons/Minimize2Icon')
 
 export default {
   name: 'Menu',
@@ -188,7 +192,7 @@ export default {
   border-left: none;
   border-right: none;
   height: 51px;
-  overflow: auto;
+  overflow-x: auto;
 
   &__logo {
     height: 40px;

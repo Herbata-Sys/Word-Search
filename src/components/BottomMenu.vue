@@ -29,8 +29,11 @@
 </template>
 
 <script>
-import { ClockIcon, TriangleIcon, SquareIcon, HexagonIcon } from 'vue-feather-icons'
+import { ClockIcon } from 'vue-feather-icons'
 import time from '../mixins/time'
+const TriangleIcon = () => import('vue-feather-icons/icons/TriangleIcon')
+const SquareIcon = () => import('vue-feather-icons/icons/SquareIcon')
+const HexagonIcon = () => import('vue-feather-icons/icons/HexagonIcon')
 
 export default {
   name: 'BottomMenu',

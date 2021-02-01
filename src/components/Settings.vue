@@ -54,7 +54,13 @@
 </template>
 
 <script>
-import { TriangleIcon, SquareIcon, HexagonIcon, XIcon, ChevronLeftIcon, ChevronRightIcon, SaveIcon } from 'vue-feather-icons'
+const SaveIcon = () => import('vue-feather-icons/icons/SaveIcon')
+const ChevronRightIcon = () => import('vue-feather-icons/icons/ChevronRightIcon')
+const ChevronLeftIcon = () => import('vue-feather-icons/icons/ChevronLeftIcon')
+const XIcon = () => import('vue-feather-icons/icons/XIcon')
+const TriangleIcon = () => import('vue-feather-icons/icons/TriangleIcon')
+const SquareIcon = () => import('vue-feather-icons/icons/SquareIcon')
+const HexagonIcon = () => import('vue-feather-icons/icons/HexagonIcon')
 
 export default {
   name: 'Settings',
