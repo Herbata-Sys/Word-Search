@@ -7,9 +7,9 @@ if (process.env.NODE_ENV === 'production') {
       // const worker = registration.waiting
       // worker.postMessage({ action: 'SKIP_WAITING' })
       if (registration.waiting) {
-        const accept = confirm("Nowa wersja jest dostępna, zainstalować?")
+        const accept = confirm('Nowa wersja jest dostępna, zainstalować?')
         if (accept) {
-          registration.waiting.postMessage('SKIP_WAITING');
+          registration.waiting.postMessage('SKIP_WAITING')
         }
       }
     }
