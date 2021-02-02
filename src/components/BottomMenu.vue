@@ -20,10 +20,17 @@
       </span>
     </div>
     <div class="menuB__wrapper">
-      <div>
+      <div class="menuB__penalty menuB__timer" v-if="penalty">
+        +25s
+      </div>
+      <div class="menuB__timer" v-else>
         {{ formatTime(time) }}
       </div>
-      <ClockIcon size="12" class="menuB__clockIcon" />
+      <ClockIcon
+        :color="penalty ? 'red' : ''"
+        size="12"
+        class="menuB__clockIcon"
+      />
     </div>
   </div>
 </template>
@@ -62,7 +69,9 @@ export default {
     return {
       locked: false,
       time: 0,
-      timeInterval: null
+      timeInterval: null,
+      penalty: false,
+      penaltyTimer: null
     }
   },
 
@@ -70,6 +79,17 @@ export default {
     crossedHints (val) {
       if (val) {
         this.time += 25
+        this.penalty = false
+
+        setTimeout(() => {
+          this.penalty = true
+        }, 1)
+
+        clearTimeout(this.penaltyTimer)
+
+        this.penaltyTimer = setTimeout(() => {
+          this.penalty = false
+        }, 1200)
       }
     }
   },
@@ -141,8 +161,19 @@ export default {
     align-items: center;
   }
 
+  &__timer {
+    min-width: 35px;
+  }
+
   &__clockIcon {
     margin-left: 5px;
+  }
+
+  &__penalty {
+    font-weight: 600;
+    color: red;
+    text-align: right;
+    animation: wobble-hor-bottom 0.8s both;
   }
 
   &__difficultyIcon {
@@ -153,6 +184,29 @@ export default {
   &__words {
     padding-left: 5px;
     font-weight: 600;
+  }
+}
+
+@keyframes wobble-hor-bottom {
+  0%,
+  100% {
+    transform: translateX(0%);
+    transform-origin: 50% 50%;
+  }
+  15% {
+    transform: translateX(-20px) rotate(-6deg);
+  }
+  30% {
+    transform: translateX(10px) rotate(6deg);
+  }
+  45% {
+    transform: translateX(-10px) rotate(-3.6deg);
+  }
+  60% {
+    transform: translateX(5px) rotate(2.4deg);
+  }
+  75% {
+    transform: translateX(-3px) rotate(-1.2deg);
   }
 }
 </style>
