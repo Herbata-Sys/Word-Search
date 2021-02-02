@@ -258,8 +258,8 @@ export default {
       }
     },
 
-    boardClickRelease (e) {
-      if (e.target.className === 'board__letter' && this.click && (this.clickDirection + 1)) {
+    boardClickRelease () {
+      if (this.click && (this.clickDirection + 1)) {
         let word = ''
 
         // Find word that player crossed out
