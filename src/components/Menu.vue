@@ -37,13 +37,6 @@
         @click="toggleFullscreen"
       />
       <SettingsIcon size="21" color="#ed6300" class="menu__icon" @click="$emit('show-settings')" />
-      <img
-        :src="require('@/assets/img/logo.webp')"
-        alt="Wykreślanka logo"
-        class="menu__logo"
-        width="40px"
-        height="40px"
-      >
     </div>
   </div>
 </template>
@@ -190,12 +183,6 @@ export default {
   border-right: none;
   height: 51px;
   overflow-x: auto;
-
-  &__logo {
-    height: 40px;
-    margin-left: -8px;
-    margin-right: -4px;
-  }
 
   &__arrow {
     display: flex;

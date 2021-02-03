@@ -174,10 +174,15 @@ export default {
       document.addEventListener('mousemove', this.boardMouseMove)
       document.addEventListener('touchmove', this.boardMouseMove, { passive: true })
       document.querySelector('.board').addEventListener('pointerdown', this.boardClick)
+      document.querySelector('.board').addEventListener('touchmove', this.preventRefresh, { passive: false })
       document.addEventListener('mouseup', this.boardClickRelease)
       document.addEventListener('touchend', this.boardClickRelease, { passive: true })
       document.addEventListener('touchcancel', this.boardClickRelease, { passive: true })
       window.addEventListener('resize', this.onResize)
+    },
+
+    preventRefresh (e) {
+      e.preventDefault()
     },
 
     onResize () {

@@ -10,9 +10,9 @@
         Pobiłeś swój rekord
       </div>
     </div>
+    <img class="newGame__logo" width="100%" height="auto" src="/img/icons/logo_wide.webp"/>
     <div class="newGame__button" @click="$emit('restart')">
-      Nowa gra
-      <PlayIcon fill="white" class="newGame__playIcon" size="18" />
+      <PlayIcon fill="white" class="newGame__playIcon" size="55" />
     </div>
     <canvas id="confetti" class="newGame__confetti" />
   </div>
@@ -76,9 +76,15 @@ export default {
   height: calc(100% - 70px);
   z-index: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  &__logo {
+    max-width: 250px;
+    filter: drop-shadow(2px 1px 2px #0000007f);
+    margin-top: -10px;
+    margin-bottom: 30px;
+  }
 
   h2 {
     font-weight: 600;
@@ -106,15 +112,19 @@ export default {
   &__button {
     width: fit-content;
     margin: 5px auto 0 auto;
-    padding: 4px 15px;
-    border-radius: 5px;
-    background: #076aff;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
+    padding: 8px;
+    border-radius: 15px;
+    background: #B8007D;
+    box-shadow: 0px 0px 11px 2px #9a0b67;
+    color: #68074952;
     cursor: pointer;
     display: flex;
     align-items: center;
+    animation: float 2s linear infinite both;
+
+    &:hover {
+      background: #a80073;
+    }
   }
 
   &__playIcon {
@@ -132,6 +142,24 @@ export default {
 
   &__icon {
     margin-right: 10px;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(3px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 </style>
