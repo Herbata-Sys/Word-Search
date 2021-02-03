@@ -10,7 +10,13 @@
         Pobiłeś swój rekord
       </div>
     </div>
-    <img class="newGame__logo" width="100%" height="auto" src="/img/icons/logo_wide.webp"/>
+    <img
+      class="newGame__logo"
+      alt="Wykreślanka gra logiczna"
+      width="250px"
+      height="131.25px"
+      src="/img/icons/logo_wide.webp"
+    />
     <div class="newGame__button" @click="$emit('restart')">
       <PlayIcon fill="white" class="newGame__playIcon" size="55" />
     </div>
@@ -80,7 +86,7 @@ export default {
   flex-direction: column;
 
   &__logo {
-    max-width: 250px;
+    max-width: 90%;
     filter: drop-shadow(2px 1px 2px #0000007f);
     margin-top: -10px;
     margin-bottom: 30px;
