@@ -62,7 +62,8 @@ export default {
     difficultyLevels: Array,
     settings: Object,
     words: Array,
-    crossedWords: Array
+    crossedWords: Array,
+    started: Boolean
   },
 
   data () {
@@ -133,6 +134,10 @@ export default {
     },
 
     toggleTimer () {
+      if (!this.started) {
+        return
+      }
+
       if (document.hidden) {
         this.stopTimer(true)
       } else {

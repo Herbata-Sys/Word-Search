@@ -19,6 +19,7 @@
 
       <BottomMenu
         ref="bottomMenu"
+        :started="started"
         :words="boardWords"
         :crossedWords="crossedWords"
         :settings="settings"
@@ -113,7 +114,6 @@ export default {
   mounted () {
     this.fillBoard(true)
     this.addEvents()
-    this.started = true
   },
 
   watch: {

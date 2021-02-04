@@ -1,24 +1,30 @@
 <template>
   <div class="newGame">
-    <div v-if="win" class="newGame__win">
-      <h2>Wygrałeś!</h2>
-      <div class="newGame__time">
-        {{ formatTime(time) }}
+    <div class="newGame__desc">
+      <img
+        class="newGame__logo"
+        alt="Wykreślanka gra logiczna"
+        width="190px"
+        height="99.68px"
+        src="/img/icons/logo_wide.webp"
+      />
+      <div v-if="win" class="newGame__win">
+        <h2>Wygrałeś!</h2>
+        <div class="newGame__time">
+          {{ formatTime(time) }}
+        </div>
+        <div class="newGame__breakRecord" v-if="breakRecord">
+          <AwardIcon class="newGame__icon" size="20" />
+          Pobiłeś swój rekord
+        </div>
       </div>
-      <div class="newGame__breakRecord" v-if="breakRecord">
-        <AwardIcon class="newGame__icon" size="20" />
-        Pobiłeś swój rekord
+      <div class="newGame__button" @click="$emit('restart')">
+        <PlayIcon fill="white" class="newGame__playIcon" size="45" />
       </div>
-    </div>
-    <img
-      class="newGame__logo"
-      alt="Wykreślanka gra logiczna"
-      width="250px"
-      height="131.25px"
-      src="/img/icons/logo_wide.webp"
-    />
-    <div class="newGame__button" @click="$emit('restart')">
-      <PlayIcon fill="white" class="newGame__playIcon" size="55" />
+      <div v-if="!win">
+        <b>Wykreślanka</b> to prosta gra słowna. Twoim zadaniem jest wykreślenie <b>wszystkich słów</b> znajdujących się na planszy w jak <b>najkrótszym czasie</b>.<br>
+        Wciśnij przycisk <b>Play</b>, aby zagrać!
+      </div>
     </div>
     <canvas id="confetti" class="newGame__confetti" />
   </div>
@@ -76,10 +82,10 @@ export default {
 <style scoped lang="scss">
 .newGame {
   position: absolute;
-  top: 43px;
+  top: 51px;
   background: rgba(255, 255, 255, 0.938);
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - 78px);
   z-index: 1;
   display: flex;
   align-items: center;
@@ -87,9 +93,39 @@ export default {
 
   &__logo {
     max-width: 90%;
+    margin-top: -20px;
     filter: drop-shadow(2px 1px 2px #0000007f);
-    margin-top: -10px;
-    margin-bottom: 30px;
+  }
+
+  &__desc {
+    background: rgb(255, 255, 255);
+    margin: 0 auto;
+    margin-top: 40px;
+    width: calc(100% - 80px);
+    font-size: 0.72rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ebe9e9;
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+    line-height: 0.9rem;
+  }
+
+  b {
+    position: relative;
+    color: #9a0b67;
+    display: inline-block;
+
+    &::before {
+      position: absolute;
+      content: '';
+      border-bottom: 5px solid #9a0b683d;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   h2 {
@@ -117,7 +153,7 @@ export default {
 
   &__button {
     width: fit-content;
-    margin: 5px auto 0 auto;
+    margin: 10px auto 30px auto;
     padding: 8px;
     border-radius: 15px;
     background: #B8007D;
