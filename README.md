@@ -4,7 +4,7 @@
 Word search is a tiny game that is about crossing out all the words on the board. You can choose in many words categories and three different levels of difficulty. Application is fully installable (PWA) and adapted to all kind of devices.
 
 ## Demo
-https://wykreśl.pl
+~~https://wykreśl.pl~~
 
 ## Project setup
 ```
